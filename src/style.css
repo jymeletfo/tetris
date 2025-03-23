@@ -8,6 +8,10 @@
   box-shadow: inset 0 0 2px #fff;
 }
 
+.tile.active {
+  background-color: orange;
+}
+
 .board {
   display: flex;
   flex-wrap: wrap;

@@ -21,10 +21,21 @@ function initialize() {
   draw(null);
 }
 
+function clearBoard() {
+  while (board.firstChild) {
+    board.removeChild(board.firstChild);
+  }
+}
+
 function draw(item: number[] | null) {
   for (let i = 0; i < config.rows * config.cols; i++) {
+    if (item && item.includes(i)) {
+      tile.classList.add("active");
+    } else {
+      tile.classList.remove("active");
+    }
     board.appendChild(tile.cloneNode(true));
   }
 }
 
-export { initialize, draw };
+export { initialize, draw, clearBoard };
