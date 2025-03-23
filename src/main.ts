@@ -1,6 +1,11 @@
 import "./style.css";
-import { initialize } from "./utils/init";
+import { initialize, draw } from "./utils/init";
+import * as Blocks from "./utils/blocks";
 
-const board: HTMLDivElement = document.getElementById("app") as HTMLDivElement;
+const playButton: HTMLButtonElement = document.getElementById(
+  "play"
+) as HTMLButtonElement;
 
-initialize(board);
+initialize();
+
+let currentBlock = Blocks.square(0, 0);

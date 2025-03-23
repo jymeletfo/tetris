@@ -4,21 +4,27 @@ export const config = {
   cols: 16,
 };
 
-function initialize(scene: HTMLDivElement) {
-  // create the tiles
-  const tile = document.createElement("div");
-  tile.style.width = `${config.unitSize}px`;
-  tile.style.height = `${config.unitSize}px`;
-  tile.classList.add("tile");
+const board: HTMLDivElement = document.getElementById("app") as HTMLDivElement;
 
+// create the tiles
+const tile = document.createElement("div");
+tile.style.width = `${config.unitSize}px`;
+tile.style.height = `${config.unitSize}px`;
+tile.classList.add("tile");
+
+function initialize() {
   // create the board
-  scene.style.width = `${config.unitSize * config.cols}px`;
-  scene.style.height = `${config.unitSize * config.rows}px`;
-  scene.classList.add("board");
+  board.style.width = `${config.unitSize * config.cols}px`;
+  board.style.height = `${config.unitSize * config.rows}px`;
+  board.classList.add("board");
 
+  draw(null);
+}
+
+function draw(item: number[] | null) {
   for (let i = 0; i < config.rows * config.cols; i++) {
-    scene.appendChild(tile.cloneNode(true));
+    board.appendChild(tile.cloneNode(true));
   }
 }
 
-export { initialize };
+export { initialize, draw };
