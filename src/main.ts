@@ -1,6 +1,6 @@
 import "./style.css";
 import { initialize, draw, config, clearBoard } from "./utils/init";
-import * as Blocks from "./utils/blocks";
+import { Block } from "./utils/blocks";
 
 const playButton: HTMLButtonElement = document.getElementById(
   "play"
@@ -8,26 +8,13 @@ const playButton: HTMLButtonElement = document.getElementById(
 
 initialize();
 
-const startColumn = Math.floor(config.cols / 2) - 1;
-
 let now = 0;
 let then = 0;
 
-// block position
-let currentRow: number;
-let currentColumn: number;
-let currentRotation: 0 | 1 | 2 | 3;
-let currentBlock: number[];
+let currentBlock: Block;
 
 function reset() {
-  currentRow = -1;
-  currentColumn = startColumn;
-  currentRotation = 0;
-  currentBlock = Blocks.iPiece(
-    currentRow * config.rows + currentColumn,
-    currentRotation
-  );
-
+  currentBlock = new Block("i");
   // cancel animation frame
 }
 
@@ -40,11 +27,7 @@ function play() {
     now = then;
 
     // update the block
-    currentRow += 1;
-    currentBlock = Blocks.iPiece(
-      currentRow * config.cols + currentColumn,
-      currentRotation
-    );
+    currentBlock.goDown();
   }
 
   requestAnimationFrame(play);
@@ -56,19 +39,16 @@ playButton.addEventListener("click", play);
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
     case "ArrowLeft":
-      if (currentColumn > 0) currentColumn -= 1;
+      currentBlock.goLeft();
       break;
     case "ArrowRight":
-      if (currentColumn < config.cols - 1) currentColumn += 1;
+      currentBlock.goRight();
       break;
     case "Space":
-      if (currentRotation < 3) currentRotation += 1;
-      else currentRotation = 0;
+      currentBlock.rotate();
+      break;
+    default:
+      draw(currentBlock);
+      break;
   }
-
-  currentBlock = Blocks.iPiece(
-    currentRow * config.cols + currentColumn,
-    currentRotation
-  );
-  draw(currentBlock);
 });

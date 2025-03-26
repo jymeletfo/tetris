@@ -1,3 +1,5 @@
+import { Block } from "./blocks";
+
 export const config = {
   unitSize: 30,
   rows: 20,
@@ -27,9 +29,9 @@ function clearBoard() {
   }
 }
 
-function draw(item: number[] | null) {
+function draw(item: Block | null) {
   for (let i = 0; i < config.rows * config.cols; i++) {
-    if (item && item.includes(i)) {
+    if (item && item.getShape().includes(i - item.position)) {
       tile.classList.add("active");
     } else {
       tile.classList.remove("active");
