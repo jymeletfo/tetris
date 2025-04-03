@@ -11,14 +11,14 @@ initialize();
 
 let now = 0;
 let then = 0;
-let speed = 8;
+let speed = 1;
 
 let currentBlock: Block;
 let stack: Stack;
 
 function reset() {
   currentBlock = new Block();
-  // cancel animation frame
+  // TODO: cancel animation frame
 }
 
 function start() {
@@ -44,8 +44,6 @@ function play() {
         stack.push(currentBlock.getShape()[i] + currentBlock.position);
       }
 
-      // stack.push(currentBlock.position);
-
       currentBlock = new Block();
     }
   }
@@ -63,6 +61,10 @@ window.addEventListener("keydown", (e) => {
       break;
     case "ArrowRight":
       currentBlock.goRight();
+      break;
+    case "ArrowDown":
+      if (currentBlock.checkCollision()) return;
+      currentBlock.goDown();
       break;
     case "Space":
       currentBlock.rotate();
