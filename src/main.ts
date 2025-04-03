@@ -73,9 +73,27 @@ resetButton.addEventListener("click", () => {
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
     case "ArrowLeft":
+      // check if there is a taken tile on the left before moving the current block
+      for (let i = 0; i < currentBlock.getShape().length; i++) {
+        if (
+          stack.allBlocks.includes(
+            currentBlock.getShape()[i] + currentBlock.position - 1
+          )
+        )
+          return;
+      }
       currentBlock.goLeft();
       break;
     case "ArrowRight":
+      // check if there is a taken tile on the right before moving the current block
+      for (let i = 0; i < currentBlock.getShape().length; i++) {
+        if (
+          stack.allBlocks.includes(
+            currentBlock.getShape()[i] + currentBlock.position + 1
+          )
+        )
+          return;
+      }
       currentBlock.goRight();
       break;
     case "ArrowDown":

@@ -1,4 +1,3 @@
-- When moving the block to the left or right, check if the tile is taken
 - Check if the lines that are full
     - destroy these lines
     - make the tiles above the broken tile go down one
