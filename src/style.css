@@ -20,3 +20,8 @@
 .invisible {
   display: none;
 }
+
+.taken {
+  background-color: skyblue;
+  box-shadow: inset 0 0 2px #fff;
+}

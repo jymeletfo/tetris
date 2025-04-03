@@ -11,7 +11,7 @@ initialize();
 
 let now = 0;
 let then = 0;
-let speed = 4;
+let speed = 8;
 
 let currentBlock: Block;
 let stack: Stack;
@@ -30,7 +30,7 @@ function start() {
 
 function play() {
   then = Date.now();
-  draw(currentBlock);
+  draw(currentBlock, stack);
 
   if (then - now > 1000 / speed) {
     now = then;
@@ -39,6 +39,13 @@ function play() {
     if (!currentBlock.checkCollision()) {
       currentBlock.goDown();
     } else {
+      // add the block to the stack
+      for (let i = 0; i < currentBlock.getShape().length; i++) {
+        stack.push(currentBlock.getShape()[i] + currentBlock.position);
+      }
+
+      // stack.push(currentBlock.position);
+
       currentBlock = new Block("i");
     }
   }
@@ -61,7 +68,7 @@ window.addEventListener("keydown", (e) => {
       currentBlock.rotate();
       break;
     default:
-      draw(currentBlock);
+      draw(currentBlock, stack);
       break;
   }
 });

@@ -17,6 +17,7 @@ tile.classList.add("tile");
 
 // create the taken blocks
 const taken: HTMLDivElement = document.createElement("div");
+taken.classList.add("invisible");
 taken.classList.add("taken");
 
 function initialize() {
