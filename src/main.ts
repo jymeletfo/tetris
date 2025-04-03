@@ -6,6 +6,9 @@ import { Stack } from "./utils/stack";
 const playButton: HTMLButtonElement = document.getElementById(
   "play"
 ) as HTMLButtonElement;
+const resetButton: HTMLButtonElement = document.getElementById(
+  "reset"
+) as HTMLButtonElement;
 
 initialize();
 
@@ -17,17 +20,19 @@ let speed = 1;
 let currentBlock: Block;
 let stack: Stack;
 
-function reset() {
-  gameOver = true;
-  currentBlock = new Block();
+let animationFrameId: any;
 
-  // TODO: cancel animation frame
+function reset() {
+  cancelAnimationFrame(animationFrameId);
+  gameOver = true;
+  draw();
 }
 
 function start() {
   stack = new Stack();
   now = Date.now();
   then = now;
+  currentBlock = new Block();
   play();
 }
 
@@ -52,12 +57,18 @@ function play() {
     }
   }
 
-  requestAnimationFrame(play);
+  console.log(gameOver);
+  animationFrameId = requestAnimationFrame(play);
 }
 
 reset();
+
 playButton.addEventListener("click", () => {
   if (gameOver) start();
+});
+
+resetButton.addEventListener("click", () => {
+  reset();
 });
 
 window.addEventListener("keydown", (e) => {
