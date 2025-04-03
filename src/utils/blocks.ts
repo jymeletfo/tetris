@@ -38,8 +38,6 @@ export class Block {
     this.position = startColumn;
     this.rotation = 0;
 
-    // if (shape === "i") this.block = iPiece;
-    // else if (shape === "z") this.block = zPiece;
     this.block = this.getNewBlock();
   }
 
@@ -57,6 +55,20 @@ export class Block {
     }
   }
 
+  /**
+   * Check if any tile in the block is on the border line (left or right)
+   * @returns true, false
+   */
+  needsAdjustment() {
+    for (let i = 0; i < this.getShape().length; i++) {
+      if ((this.getShape()[i] + this.position) % config.cols == 0) {
+        console.log("it does");
+        return true;
+      }
+    }
+    return false;
+  }
+
   goDown() {
     this.position += config.cols;
   }
@@ -72,11 +84,21 @@ export class Block {
   goLeft() {
     if (this.position % config.cols === 0) return;
     this.position -= 1;
+
+    // If any tile is on the border, move the block to the right
+    while (this.needsAdjustment()) {
+      this.position += 1;
+    }
   }
 
   goRight() {
     if (this.position % config.cols === config.cols - 1) return;
     this.position += 1;
+
+    // If any tile is on the border, move the block to the left
+    while (this.needsAdjustment()) {
+      this.position -= 1;
+    }
   }
 
   checkCollision() {
