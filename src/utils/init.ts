@@ -1,4 +1,5 @@
 import { Block } from "./blocks";
+import { Stack } from "./stack";
 
 export const config = {
   unitSize: 30,
@@ -27,10 +28,6 @@ function initialize() {
   draw(null);
 }
 
-function clearBoard() {
-  board.innerHTML = "";
-}
-
 function draw(item: Block | null) {
   const fragment = document.createDocumentFragment();
 
@@ -48,7 +45,7 @@ function draw(item: Block | null) {
     fragment.appendChild(taken.cloneNode(true));
   }
 
-  board.appendChild(fragment);
+  board.replaceChildren(fragment);
 }
 
 // Get all the div children in the board
@@ -56,4 +53,4 @@ function getBoardChildren() {
   return Array.from(board.children) as HTMLDivElement[];
 }
 
-export { initialize, draw, clearBoard, getBoardChildren };
+export { initialize, draw, getBoardChildren };

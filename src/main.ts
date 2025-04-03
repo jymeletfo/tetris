@@ -1,5 +1,5 @@
 import "./style.css";
-import { initialize, draw, clearBoard } from "./utils/init";
+import { initialize, draw } from "./utils/init";
 import { Block } from "./utils/blocks";
 
 const playButton: HTMLButtonElement = document.getElementById(
@@ -27,7 +27,7 @@ function start() {
 
 function play() {
   then = Date.now();
-  clearBoard();
+  // clearBoard();
   draw(currentBlock);
 
   if (then - now > 1000 / speed) {
