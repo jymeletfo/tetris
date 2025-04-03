@@ -9,6 +9,7 @@ const playButton: HTMLButtonElement = document.getElementById(
 
 initialize();
 
+let gameOver = true;
 let now = 0;
 let then = 0;
 let speed = 1;
@@ -17,7 +18,9 @@ let currentBlock: Block;
 let stack: Stack;
 
 function reset() {
+  gameOver = true;
   currentBlock = new Block();
+
   // TODO: cancel animation frame
 }
 
@@ -29,6 +32,7 @@ function start() {
 }
 
 function play() {
+  gameOver = false;
   then = Date.now();
   draw(currentBlock, stack);
 
@@ -52,7 +56,9 @@ function play() {
 }
 
 reset();
-playButton.addEventListener("click", start);
+playButton.addEventListener("click", () => {
+  if (gameOver) start();
+});
 
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
