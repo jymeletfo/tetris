@@ -56,13 +56,28 @@ export class Block {
   }
 
   /**
-   * Check if any tile in the block is on the border line (left or right)
+   * Check if any tile in the block is on the right border line
    * @returns true, false
    */
-  needsAdjustment() {
+  tooFarRight(): boolean {
     for (let i = 0; i < this.getShape().length; i++) {
       if ((this.getShape()[i] + this.position) % config.cols == 0) {
-        console.log("it does");
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Check if any tile in the block is on the left border line
+   * @returns true, false
+   */
+  tooFarLeft(): boolean {
+    for (let i = 0; i < this.getShape().length; i++) {
+      if (
+        (this.getShape()[i] + this.position) % config.cols ==
+        config.cols - 1
+      ) {
         return true;
       }
     }
@@ -86,7 +101,7 @@ export class Block {
     this.position -= 1;
 
     // If any tile is on the border, move the block to the right
-    while (this.needsAdjustment()) {
+    while (this.tooFarLeft()) {
       this.position += 1;
     }
   }
@@ -96,7 +111,7 @@ export class Block {
     this.position += 1;
 
     // If any tile is on the border, move the block to the left
-    while (this.needsAdjustment()) {
+    while (this.tooFarRight()) {
       this.position -= 1;
     }
   }
