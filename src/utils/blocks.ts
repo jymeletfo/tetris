@@ -1,33 +1,7 @@
-import { config } from "./init";
-import { getBoardChildren } from "./init";
+import { config, getBoardChildren } from "./init";
+import { zPiece, iPiece, oPiece } from "./blockTypes";
 
 const startColumn = Math.floor(config.cols / 2) - 1;
-
-const zPiece = [
-  [0, 1, config.cols + 1, config.cols + 2],
-  [1, config.cols, config.cols + 1, 2 * config.cols],
-  [0, 1, config.cols + 1, config.cols + 2],
-  [1, config.cols, config.cols + 1, 2 * config.cols],
-];
-
-const iPiece = [
-  [0, config.cols, 2 * config.cols, 3 * config.cols],
-  [0, 1, 2, 3],
-  [0, config.cols, 2 * config.cols, 3 * config.cols],
-  [0, 1, 2, 3],
-];
-
-const oPiece = [
-  [0, 1, config.cols, config.cols + 1],
-  [0, 1, config.cols, config.cols + 1],
-  [0, 1, config.cols, config.cols + 1],
-  [0, 1, config.cols, config.cols + 1],
-];
-
-function getRandomBlock() {
-  const shapes = ["i", "z"];
-  return shapes[Math.floor(Math.random() * shapes.length)];
-}
 
 export class Block {
   position: number;
