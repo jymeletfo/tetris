@@ -61,14 +61,16 @@ export class Block {
   checkCollision() {
     const tiles = getBoardChildren();
 
-    this.getShape().forEach((element) => {
+    for (let i = 0; i < this.getShape().length; i++) {
       if (
-        tiles[element + this.position + config.cols].classList.contains("taken")
+        tiles[
+          this.block[this.rotation][i] + this.position + config.cols
+        ].classList.contains("taken")
       ) {
         console.log("Collision");
         return true;
       }
-    });
+    }
 
     return false;
   }
