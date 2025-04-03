@@ -25,10 +25,10 @@ function initialize() {
   board.style.height = `${config.unitSize * config.rows}px`;
   board.classList.add("board");
 
-  draw(null);
+  draw();
 }
 
-function draw(item: Block | null) {
+function draw(item?: Block, stack?: Stack) {
   const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < config.rows * config.cols; i++) {
@@ -37,6 +37,13 @@ function draw(item: Block | null) {
     } else {
       tile.classList.remove("active");
     }
+
+    if (stack && stack.allBlocks.includes(i)) {
+      tile.classList.add("taken");
+    } else {
+      tile.classList.remove("taken");
+    }
+
     fragment.appendChild(tile.cloneNode(true));
   }
 

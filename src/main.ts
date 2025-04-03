@@ -1,6 +1,7 @@
 import "./style.css";
 import { initialize, draw } from "./utils/init";
 import { Block } from "./utils/blocks";
+import { Stack } from "./utils/stack";
 
 const playButton: HTMLButtonElement = document.getElementById(
   "play"
@@ -10,9 +11,10 @@ initialize();
 
 let now = 0;
 let then = 0;
-let speed = 1;
+let speed = 4;
 
 let currentBlock: Block;
+let stack: Stack;
 
 function reset() {
   currentBlock = new Block("i");
@@ -20,6 +22,7 @@ function reset() {
 }
 
 function start() {
+  stack = new Stack();
   now = Date.now();
   then = now;
   play();
@@ -27,7 +30,6 @@ function start() {
 
 function play() {
   then = Date.now();
-  // clearBoard();
   draw(currentBlock);
 
   if (then - now > 1000 / speed) {
