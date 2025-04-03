@@ -1,4 +1,5 @@
 import { config } from "./init";
+import { getBoardChildren } from "./init";
 
 const startColumn = Math.floor(config.cols / 2) - 1;
 
@@ -52,11 +53,23 @@ export class Block {
     this.position += 1;
   }
 
+  test() {
+    const tiles = getBoardChildren();
+    console.log("Initial test", tiles);
+  }
+
   checkCollision() {
-    // get all div children in the board
-    // for (let i = 0; i < this.block[this.rotation].length; i++) {
-    // check if the block below contains a taken tile
-    // if (this.getShape()[i]  + this.position + 1) {
-    // }
+    const tiles = getBoardChildren();
+    console.log(tiles);
+
+    this.getShape().forEach((element) => {
+      if (
+        tiles[element + this.position + config.cols].classList.contains("taken")
+      ) {
+        return true;
+      }
+    });
+
+    return false;
   }
 }

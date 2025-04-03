@@ -18,23 +18,29 @@ function reset() {
   // cancel animation frame
 }
 
+function start() {
+  now = Date.now();
+  then = now;
+  play();
+}
+
 function play() {
   then = Date.now();
   clearBoard();
   draw(currentBlock);
 
-  if (Date.now() - now > 1000) {
+  if (then - now > 1000) {
     now = then;
 
     // update the block
-    currentBlock.goDown();
+    if (!currentBlock.checkCollision()) currentBlock.goDown();
   }
 
   requestAnimationFrame(play);
 }
 
 reset();
-playButton.addEventListener("click", play);
+playButton.addEventListener("click", start);
 
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
