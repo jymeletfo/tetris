@@ -20,11 +20,9 @@ export class Block {
   position: number;
   rotation: number;
   block: number[][];
-  // columnPosition: number;
 
   constructor(shape: "i" | "z") {
     this.position = startColumn;
-    // this.columnPosition = startColumn;
     this.rotation = 0;
 
     if (shape === "i") this.block = iPiece;
@@ -52,5 +50,13 @@ export class Block {
   goRight() {
     if (this.position % config.cols === config.cols - 1) return;
     this.position += 1;
+  }
+
+  checkCollision() {
+    // get all div children in the board
+    // for (let i = 0; i < this.block[this.rotation].length; i++) {
+    // check if the block below contains a taken tile
+    // if (this.getShape()[i]  + this.position + 1) {
+    // }
   }
 }

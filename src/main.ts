@@ -1,5 +1,5 @@
 import "./style.css";
-import { initialize, draw, config, clearBoard } from "./utils/init";
+import { initialize, draw, clearBoard } from "./utils/init";
 import { Block } from "./utils/blocks";
 
 const playButton: HTMLButtonElement = document.getElementById(
