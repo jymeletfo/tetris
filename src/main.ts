@@ -17,7 +17,7 @@ let currentBlock: Block;
 let stack: Stack;
 
 function reset() {
-  currentBlock = new Block("i");
+  currentBlock = new Block();
   // cancel animation frame
 }
 
@@ -46,7 +46,7 @@ function play() {
 
       // stack.push(currentBlock.position);
 
-      currentBlock = new Block("i");
+      currentBlock = new Block();
     }
   }
 
