@@ -10,6 +10,7 @@ initialize();
 
 let now = 0;
 let then = 0;
+let speed = 1;
 
 let currentBlock: Block;
 
@@ -29,7 +30,7 @@ function play() {
   clearBoard();
   draw(currentBlock);
 
-  if (then - now > 1000) {
+  if (then - now > 1000 / speed) {
     now = then;
 
     // update the block
