@@ -53,11 +53,6 @@ export class Block {
     this.position += 1;
   }
 
-  test() {
-    const tiles = getBoardChildren();
-    console.log("Initial test", tiles);
-  }
-
   checkCollision() {
     const tiles = getBoardChildren();
 
@@ -67,7 +62,6 @@ export class Block {
           this.block[this.rotation][i] + this.position + config.cols
         ].classList.contains("taken")
       ) {
-        console.log("Collision");
         return true;
       }
     }

@@ -34,7 +34,11 @@ function play() {
     now = then;
 
     // update the block
-    if (!currentBlock.checkCollision()) currentBlock.goDown();
+    if (!currentBlock.checkCollision()) {
+      currentBlock.goDown();
+    } else {
+      currentBlock = new Block("i");
+    }
   }
 
   requestAnimationFrame(play);

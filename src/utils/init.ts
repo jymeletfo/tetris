@@ -28,17 +28,13 @@ function initialize() {
 }
 
 function clearBoard() {
-  // while (board.firstChild) {
-  //   board.removeChild(board.firstChild);
-  // }
-
   board.innerHTML = "";
 }
 
 function draw(item: Block | null) {
   const fragment = document.createDocumentFragment();
 
-  for (let i = 1; i <= config.rows * config.cols; i++) {
+  for (let i = 0; i < config.rows * config.cols; i++) {
     if (item && item.getShape().includes(i - item.position)) {
       tile.classList.add("active");
     } else {
