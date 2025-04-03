@@ -57,7 +57,6 @@ function play() {
     }
   }
 
-  console.log(gameOver);
   animationFrameId = requestAnimationFrame(play);
 }
 

@@ -71,7 +71,6 @@ export class Block {
   }
 
   goLeft() {
-    if (this.position % config.cols === 0) return;
     this.position -= 1;
 
     // If any tile is on the border, move the block to the right
@@ -81,7 +80,6 @@ export class Block {
   }
 
   goRight() {
-    if (this.position % config.cols === config.cols - 1) return;
     this.position += 1;
 
     // If any tile is on the border, move the block to the left
