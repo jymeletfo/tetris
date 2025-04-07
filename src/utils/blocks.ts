@@ -1,12 +1,13 @@
 import { config, getBoardChildren } from "./init";
-import { zPiece, iPiece, oPiece } from "./blockTypes";
+import { Piece } from "../types/piece";
+import { zPiece, sPiece, iPiece, oPiece, lPiece, jPiece } from "./blockTypes";
 
 const startColumn = Math.floor(config.cols / 2) - 1;
 
 export class Block {
   position: number;
   rotation: number;
-  block: number[][];
+  block: Piece;
 
   constructor() {
     this.position = startColumn;
@@ -16,17 +17,9 @@ export class Block {
   }
 
   getNewBlock() {
-    const shapes = ["i", "z", "o"];
-    switch (shapes[Math.floor(Math.random() * shapes.length)]) {
-      case "i":
-        return iPiece;
-      case "z":
-        return zPiece;
-      case "o":
-        return oPiece;
-      default:
-        return iPiece;
-    }
+    const shapes: Piece[] = [iPiece, zPiece, sPiece, oPiece, lPiece, jPiece];
+    return shapes[Math.floor(Math.random() * shapes.length)] as Piece;
+    // return jPiece; // For testing purposes
   }
 
   /**

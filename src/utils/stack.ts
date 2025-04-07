@@ -36,22 +36,6 @@ export class Stack {
       // recheck the rows after the reorganization
       this.checkRowsToBreak();
     }
-
-    // for (let i = 0; i < this.rowsToDelete.length; i++) {
-    //   this.deleteRow(this.rowsToDelete[i] * config.cols);
-    //   this.reorganizeBlocks(this.rowsToDelete[i] * config.cols);
-    // }
-
-    // reset the rowsToDelete array
-    // this.rowsToDelete = [];
-
-    // for (let i = 0; i < config.rows; i++) {
-    //   if (this.checkIfRowIsFull(i * config.cols)) {
-    //     this.rowsToDelete.push(i);
-    //     this.deleteRow(i * config.cols);
-    //     this.reorganizeBlocks(i * config.cols);
-    //   }
-    // }
   }
 
   checkIfRowIsFull(rowStart: number) {
