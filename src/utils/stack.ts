@@ -2,22 +2,56 @@ import { config } from "./init";
 
 export class Stack {
   public allBlocks: number[];
+  private rowsToDelete: number[];
 
   constructor() {
     this.allBlocks = [];
+    this.rowsToDelete = [];
   }
 
   push(position: number) {
     this.allBlocks.push(position);
   }
 
-  breakFullRows() {
+  checkRowsToBreak() {
     for (let i = 0; i < config.rows; i++) {
-      if (this.checkIfRowIsFull(i * config.cols)) {
-        this.deleteRow(i * config.cols);
-        this.reorganizeBlocks(i * config.cols);
+      if (
+        this.checkIfRowIsFull(i * config.cols) &&
+        !this.rowsToDelete.includes(i)
+      ) {
+        this.rowsToDelete.push(i);
       }
     }
+  }
+
+  breakFullRows() {
+    while (this.rowsToDelete.length > 0) {
+      // delete the first row to be broken
+      this.deleteRow(this.rowsToDelete[0] * config.cols);
+      this.reorganizeBlocks(this.rowsToDelete[0] * config.cols);
+
+      // remove the row from the rowsToDelete array
+      this.rowsToDelete.splice(0, 1);
+
+      // recheck the rows after the reorganization
+      this.checkRowsToBreak();
+    }
+
+    // for (let i = 0; i < this.rowsToDelete.length; i++) {
+    //   this.deleteRow(this.rowsToDelete[i] * config.cols);
+    //   this.reorganizeBlocks(this.rowsToDelete[i] * config.cols);
+    // }
+
+    // reset the rowsToDelete array
+    // this.rowsToDelete = [];
+
+    // for (let i = 0; i < config.rows; i++) {
+    //   if (this.checkIfRowIsFull(i * config.cols)) {
+    //     this.rowsToDelete.push(i);
+    //     this.deleteRow(i * config.cols);
+    //     this.reorganizeBlocks(i * config.cols);
+    //   }
+    // }
   }
 
   checkIfRowIsFull(rowStart: number) {
