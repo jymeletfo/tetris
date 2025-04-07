@@ -15,6 +15,7 @@ export class Stack {
     for (let i = 0; i < config.rows; i++) {
       if (this.checkIfRowIsFull(i * config.cols)) {
         this.deleteRow(i * config.cols);
+        this.reorganizeBlocks(i * config.cols);
       }
     }
   }
@@ -29,6 +30,14 @@ export class Stack {
   deleteRow(rowStart: number) {
     for (let i = 0; i < config.cols; i++) {
       this.allBlocks.splice(this.allBlocks.indexOf(rowStart + i), 1);
+    }
+  }
+
+  reorganizeBlocks(rowStart: number) {
+    for (let i = rowStart + config.cols; i >= 0; i--) {
+      if (this.allBlocks.includes(i)) {
+        this.allBlocks[this.allBlocks.indexOf(i)] += config.cols;
+      }
     }
   }
 }

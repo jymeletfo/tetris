@@ -1,3 +1,1 @@
-- Check if the lines that are full
-    - destroy these lines
-    - make the tiles above the broken tile go down one
+* There is an issue where the reoganization of blocks does not work well when more than 1 line is broken simultaneaously.
