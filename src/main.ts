@@ -52,6 +52,7 @@ function play() {
       for (let i = 0; i < currentBlock.getShape().length; i++) {
         stack.push(currentBlock.getShape()[i] + currentBlock.position);
       }
+      stack.breakFullRows();
 
       currentBlock = new Block();
     }
