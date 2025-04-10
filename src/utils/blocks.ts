@@ -1,6 +1,6 @@
 import { config, getBoardChildren } from "./init";
 import { Piece } from "../types/piece";
-import { zPiece, sPiece, iPiece, oPiece, lPiece, jPiece } from "./blockTypes";
+import { blockTypes } from "./blockTypes";
 
 const startColumn = Math.floor(config.cols / 2) - 1;
 
@@ -11,7 +11,7 @@ export class Block {
 
   // Randomly selects a new block shape
   private getNewBlock(): Piece {
-    const shapes: Piece[] = [iPiece, zPiece, sPiece, oPiece, lPiece, jPiece];
+    const shapes: Piece[] = blockTypes;
     return shapes[Math.floor(Math.random() * shapes.length)];
   }
 

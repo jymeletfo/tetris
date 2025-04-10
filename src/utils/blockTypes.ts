@@ -42,3 +42,30 @@ export const oPiece: Piece = [
   [0, 1, config.cols, config.cols + 1],
   [0, 1, config.cols, config.cols + 1],
 ];
+
+export const tPiece: Piece = [
+  [0, 1, 2, config.cols + 1],
+  [0, config.cols, config.cols + 1, 2 * config.cols],
+  [1, config.cols, config.cols + 1, config.cols + 2],
+  [1, config.cols + 1, 2 * config.cols + 1, config.cols],
+];
+
+export const blockTypes: Piece[] = [
+  zPiece,
+  sPiece,
+  iPiece,
+  oPiece,
+  lPiece,
+  jPiece,
+  tPiece,
+];
+
+export const blockColors: string[] = [
+  "red",
+  "green",
+  "blue",
+  "yellow",
+  "purple",
+  "orange",
+  "cyan",
+];
