@@ -1,61 +1,51 @@
 import { config } from "./init";
 
 export class Stack {
-  public allBlocks: number[];
-  private rowsToDelete: number[];
+  public allBlocks: number[] = [];
+  private rowsToDelete: number[] = [];
 
-  constructor() {
-    this.allBlocks = [];
-    this.rowsToDelete = [];
-  }
-
-  push(position: number) {
+  // Add a block position to the stack
+  push(position: number): void {
     this.allBlocks.push(position);
   }
 
-  checkRowsToBreak() {
+  // Identify rows that are full and mark them for deletion
+  checkRowsToBreak(): void {
+    this.rowsToDelete = [];
     for (let i = 0; i < config.rows; i++) {
-      if (
-        this.checkIfRowIsFull(i * config.cols) &&
-        !this.rowsToDelete.includes(i)
-      ) {
+      if (this.isRowFull(i * config.cols)) {
         this.rowsToDelete.push(i);
       }
     }
   }
 
-  breakFullRows() {
-    while (this.rowsToDelete.length > 0) {
-      // delete the first row to be broken
-      this.deleteRow(this.rowsToDelete[0] * config.cols);
-      this.reorganizeBlocks(this.rowsToDelete[0] * config.cols);
-
-      // remove the row from the rowsToDelete array
-      this.rowsToDelete.splice(0, 1);
-
-      // recheck the rows after the reorganization
-      this.checkRowsToBreak();
+  // Break all full rows and reorganize the stack
+  breakFullRows(): void {
+    for (const row of this.rowsToDelete) {
+      this.deleteRow(row * config.cols);
+      this.shiftBlocksDown(row * config.cols);
     }
+    this.rowsToDelete = [];
   }
 
-  checkIfRowIsFull(rowStart: number) {
-    for (let j = 0; j < config.cols; j++) {
-      if (!this.allBlocks.includes(rowStart + j)) return false;
-    }
-    return true;
+  // Check if a specific row is full
+  private isRowFull(rowStart: number): boolean {
+    return Array.from({ length: config.cols }, (_, j) => rowStart + j).every(
+      (pos) => this.allBlocks.includes(pos)
+    );
   }
 
-  deleteRow(rowStart: number) {
-    for (let i = 0; i < config.cols; i++) {
-      this.allBlocks.splice(this.allBlocks.indexOf(rowStart + i), 1);
-    }
+  // Delete a specific row from the stack
+  private deleteRow(rowStart: number): void {
+    this.allBlocks = this.allBlocks.filter(
+      (pos) => pos < rowStart || pos >= rowStart + config.cols
+    );
   }
 
-  reorganizeBlocks(rowStart: number) {
-    for (let i = rowStart + config.cols; i >= 0; i--) {
-      if (this.allBlocks.includes(i)) {
-        this.allBlocks[this.allBlocks.indexOf(i)] += config.cols;
-      }
-    }
+  // Shift blocks above a deleted row down by one row
+  private shiftBlocksDown(rowStart: number): void {
+    this.allBlocks = this.allBlocks.map((pos) =>
+      pos < rowStart ? pos + config.cols : pos
+    );
   }
 }

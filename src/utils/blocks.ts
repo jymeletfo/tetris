@@ -5,95 +5,62 @@ import { zPiece, sPiece, iPiece, oPiece, lPiece, jPiece } from "./blockTypes";
 const startColumn = Math.floor(config.cols / 2) - 1;
 
 export class Block {
-  position: number;
-  rotation: number;
-  block: Piece;
+  position: number = startColumn;
+  rotation: number = 0;
+  block: Piece = this.getNewBlock();
 
-  constructor() {
-    this.position = startColumn;
-    this.rotation = 0;
-
-    this.block = this.getNewBlock();
-  }
-
-  getNewBlock() {
+  // Randomly selects a new block shape
+  private getNewBlock(): Piece {
     const shapes: Piece[] = [iPiece, zPiece, sPiece, oPiece, lPiece, jPiece];
-    return shapes[Math.floor(Math.random() * shapes.length)] as Piece;
-    // return jPiece; // For testing purposes
+    return shapes[Math.floor(Math.random() * shapes.length)];
   }
 
-  /**
-   * Check if any tile in the block is on the right border line
-   * @returns true, false
-   */
-  tooFarRight(): boolean {
-    for (let i = 0; i < this.getShape().length; i++) {
-      if ((this.getShape()[i] + this.position) % config.cols == 0) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Check if any tile in the block is on the left border line
-   * @returns true, false
-   */
-  tooFarLeft(): boolean {
-    for (let i = 0; i < this.getShape().length; i++) {
-      if (
-        (this.getShape()[i] + this.position) % config.cols ==
-        config.cols - 1
-      ) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  goDown() {
-    this.position += config.cols;
-  }
-
-  getShape() {
+  // Returns the current shape of the block based on its rotation
+  public getShape(): number[] {
     return this.block[this.rotation];
   }
 
-  rotate() {
+  // Checks if the block is too far to the right
+  private tooFarRight(): boolean {
+    return this.getShape().some(
+      (tile) => (tile + this.position) % config.cols === 0
+    );
+  }
+
+  // Checks if the block is too far to the left
+  private tooFarLeft(): boolean {
+    return this.getShape().some(
+      (tile) => (tile + this.position) % config.cols === config.cols - 1
+    );
+  }
+
+  // Moves the block down
+  goDown(): void {
+    this.position += config.cols;
+  }
+
+  // Rotates the block
+  rotate(): void {
     this.rotation = (this.rotation + 1) % 4;
   }
 
-  goLeft() {
+  // Moves the block left and adjusts if it goes out of bounds
+  goLeft(): void {
     this.position -= 1;
-
-    // If any tile is on the border, move the block to the right
-    while (this.tooFarLeft()) {
-      this.position += 1;
-    }
+    if (this.tooFarLeft()) this.position += 1;
   }
 
-  goRight() {
+  // Moves the block right and adjusts if it goes out of bounds
+  goRight(): void {
     this.position += 1;
-
-    // If any tile is on the border, move the block to the left
-    while (this.tooFarRight()) {
-      this.position -= 1;
-    }
+    if (this.tooFarRight()) this.position -= 1;
   }
 
-  checkCollision() {
+  // Checks for collision with other blocks or the bottom of the board
+  checkCollision(): boolean {
     const tiles = getBoardChildren();
-
-    for (let i = 0; i < this.getShape().length; i++) {
-      if (
-        tiles[
-          this.block[this.rotation][i] + this.position + config.cols
-        ].classList.contains("taken")
-      ) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.getShape().some((tile) =>
+      tiles[tile + this.position + config.cols].classList.contains("taken")
+    );
   }
 }
