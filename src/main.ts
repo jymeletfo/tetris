@@ -2,13 +2,14 @@ import "./style.css";
 import { initialize, draw } from "./utils/init";
 import { Block } from "./utils/blocks";
 import { Stack } from "./utils/stack";
-
-const playButton: HTMLButtonElement = document.getElementById(
-  "play"
-) as HTMLButtonElement;
-const resetButton: HTMLButtonElement = document.getElementById(
-  "reset"
-) as HTMLButtonElement;
+import {
+  playButton,
+  resetButton,
+  scoreElement,
+  leftButton,
+  rightButton,
+  rotateButton,
+} from "./utils/divElements";
 
 initialize();
 
@@ -16,6 +17,7 @@ let gameOver = true;
 let now = 0;
 let then = 0;
 let speed = 1;
+let score = 0;
 
 let currentBlock: Block;
 let stack: Stack;
@@ -29,6 +31,11 @@ function reset() {
 }
 
 function start() {
+  // reset the game
+  cancelAnimationFrame(animationFrameId);
+  gameOver = false;
+  speed = 1;
+  score = 0;
   stack = new Stack();
   now = Date.now();
   then = now;
@@ -37,9 +44,10 @@ function start() {
 }
 
 function play() {
-  gameOver = false;
   then = Date.now();
   draw(currentBlock, stack);
+
+  scoreElement.innerText = `${score}`;
 
   if (then - now > 1000 / speed) {
     now = then;

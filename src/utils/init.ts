@@ -1,13 +1,12 @@
 import { Block } from "./blocks";
 import { Stack } from "./stack";
+import { board } from "./divElements";
 
 export const config = {
-  unitSize: 30,
+  unitSize: window.innerWidth < 600 ? 25 : 30,
   rows: 20,
   cols: 16,
 };
-
-const board: HTMLDivElement = document.getElementById("app") as HTMLDivElement;
 
 // create the tiles
 const tile = document.createElement("div");
