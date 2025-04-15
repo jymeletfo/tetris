@@ -10,6 +10,7 @@ import {
   rightButton,
   rotateButton,
 } from "./utils/divElements";
+import { createTimer, Timer } from "animejs";
 
 initialize();
 
@@ -22,37 +23,20 @@ let score = 0;
 let currentBlock: Block;
 let stack: Stack;
 
-let animationFrameId: any;
-
-function reset() {
-  cancelAnimationFrame(animationFrameId);
-  gameOver = true;
-  draw();
-}
-
-function start() {
-  // reset the game
-  cancelAnimationFrame(animationFrameId);
-  gameOver = false;
-  speed = 1;
-  score = 0;
-  stack = new Stack();
-  now = Date.now();
-  then = now;
-  currentBlock = new Block();
-  play();
-}
-
-function play() {
-  then = Date.now();
-  draw(currentBlock, stack);
-
-  scoreElement.innerText = `${score}`;
-
-  if (then - now > 1000 / speed) {
-    now = then;
-
-    // update the block
+let gameAnimation: Timer = createTimer({
+  duration: 1000,
+  loop: true,
+  frameRate: speed,
+  onBegin: () => {
+    gameOver = false;
+    speed = 1;
+    score = 0;
+    stack = new Stack();
+    currentBlock = new Block();
+  },
+  onUpdate: () => {
+    draw(currentBlock, stack);
+    scoreElement.innerText = `${score}`;
     if (!currentBlock.checkCollision()) {
       currentBlock.goDown();
     } else {
@@ -65,9 +49,18 @@ function play() {
 
       currentBlock = new Block();
     }
-  }
+  },
+});
 
-  animationFrameId = requestAnimationFrame(play);
+function reset() {
+  // cancelAnimationFrame(animationFrameId);
+  gameAnimation.reset();
+  gameOver = true;
+  draw();
+}
+
+function start() {
+  gameAnimation.play();
 }
 
 reset();
@@ -91,6 +84,7 @@ function rightAction() {
       return;
   }
   currentBlock.goRight();
+  draw(currentBlock, stack);
 }
 
 function leftAction() {
@@ -104,10 +98,12 @@ function leftAction() {
       return;
   }
   currentBlock.goLeft();
+  draw(currentBlock, stack);
 }
 
 function rotateAction() {
   currentBlock.rotate();
+  draw(currentBlock, stack);
 }
 
 /**
@@ -124,6 +120,7 @@ window.addEventListener("keydown", (e) => {
     case "ArrowDown":
       if (currentBlock.checkCollision()) return;
       currentBlock.goDown();
+      draw(currentBlock, stack);
       break;
     case "Space":
       rotateAction();
@@ -135,5 +132,6 @@ window.addEventListener("keydown", (e) => {
 });
 
 leftButton.addEventListener("click", leftAction);
+
 rightButton.addEventListener("click", rightAction);
 rotateButton.addEventListener("click", rotateAction);
