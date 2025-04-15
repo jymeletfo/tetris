@@ -15,9 +15,7 @@ import { createTimer, Timer } from "animejs";
 initialize();
 
 let gameOver = true;
-let now = 0;
-let then = 0;
-let speed = 1;
+let speed = 3;
 let score = 0;
 
 let currentBlock: Block;
@@ -40,6 +38,12 @@ let gameAnimation: Timer = createTimer({
     if (!currentBlock.checkCollision()) {
       currentBlock.goDown();
     } else {
+      // check if the game is over
+      if (stack.allBlocks.includes(currentBlock.position)) {
+        alert("Game Over!");
+        reset();
+        return;
+      }
       // add the block to the stack
       for (let i = 0; i < currentBlock.getShape().length; i++) {
         stack.push(currentBlock.getShape()[i] + currentBlock.position);
