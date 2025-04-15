@@ -80,41 +80,60 @@ resetButton.addEventListener("click", () => {
   reset();
 });
 
+function rightAction() {
+  // check if there is a taken tile on the right before moving the current block
+  for (let i = 0; i < currentBlock.getShape().length; i++) {
+    if (
+      stack.allBlocks.includes(
+        currentBlock.getShape()[i] + currentBlock.position + 1
+      )
+    )
+      return;
+  }
+  currentBlock.goRight();
+}
+
+function leftAction() {
+  // check if there is a taken tile on the left before moving the current block
+  for (let i = 0; i < currentBlock.getShape().length; i++) {
+    if (
+      stack.allBlocks.includes(
+        currentBlock.getShape()[i] + currentBlock.position - 1
+      )
+    )
+      return;
+  }
+  currentBlock.goLeft();
+}
+
+function rotateAction() {
+  currentBlock.rotate();
+}
+
+/**
+ * Add player actions
+ */
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
     case "ArrowLeft":
-      // check if there is a taken tile on the left before moving the current block
-      for (let i = 0; i < currentBlock.getShape().length; i++) {
-        if (
-          stack.allBlocks.includes(
-            currentBlock.getShape()[i] + currentBlock.position - 1
-          )
-        )
-          return;
-      }
-      currentBlock.goLeft();
+      leftAction();
       break;
     case "ArrowRight":
-      // check if there is a taken tile on the right before moving the current block
-      for (let i = 0; i < currentBlock.getShape().length; i++) {
-        if (
-          stack.allBlocks.includes(
-            currentBlock.getShape()[i] + currentBlock.position + 1
-          )
-        )
-          return;
-      }
-      currentBlock.goRight();
+      rightAction();
       break;
     case "ArrowDown":
       if (currentBlock.checkCollision()) return;
       currentBlock.goDown();
       break;
     case "Space":
-      currentBlock.rotate();
+      rotateAction();
       break;
     default:
       draw(currentBlock, stack);
       break;
   }
 });
+
+leftButton.addEventListener("click", leftAction);
+rightButton.addEventListener("click", rightAction);
+rotateButton.addEventListener("click", rotateAction);
