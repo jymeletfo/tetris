@@ -1,0 +1,42 @@
+@media (max-width: 600px) {
+  body {
+    font-size: 12px;
+  }
+
+  .board {
+    margin: 1rem auto;
+  }
+
+  /* .touch-controls {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem auto;
+    }
+  
+    .touch-controls button {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 3rem;
+      height: 3rem;
+      border: none;
+      color: #fff;
+      background-color: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      border-radius: 2rem;
+    }
+  
+    .touch-controls button:active {
+      background-color: #ffffffca;
+      color: #000;
+      scale: 0.9;
+    } */
+
+  .touch-controls button:focus {
+    outline: none;
+  }
+}

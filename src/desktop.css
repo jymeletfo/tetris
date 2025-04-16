@@ -1,0 +1,27 @@
+@media (min-width: 601px) {
+  body {
+    font-size: 16px;
+  }
+
+  #frame {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .board {
+    justify-content: flex-start;
+  }
+
+  #score {
+    min-width: 5rem;
+  }
+
+  .touch-controls {
+    display: none;
+  }
+}

@@ -16,7 +16,7 @@ import eventEmitter from "./utils/eventEmitter";
 initialize();
 
 let gameOver = true;
-let speed = 3;
+let speed = 1;
 let score = 0;
 
 let currentBlock: Block;
