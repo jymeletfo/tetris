@@ -5,19 +5,19 @@ import { Stack } from "./utils/stack";
 import {
   playButton,
   resetButton,
-  scoreElement,
   leftButton,
   rightButton,
   rotateButton,
 } from "./utils/divElements";
 import { createTimer, Timer } from "animejs";
 import eventEmitter from "./utils/eventEmitter";
+import Score from "./utils/score";
 
 initialize();
 
 let gameOver = true;
 let speed = 1;
-let score = 0;
+let score: Score = new Score();
 
 let currentBlock: Block;
 let stack: Stack;
@@ -29,13 +29,11 @@ let gameAnimation: Timer = createTimer({
   onBegin: () => {
     gameOver = false;
     speed = 1;
-    score = 0;
     stack = new Stack();
     currentBlock = new Block();
   },
   onUpdate: () => {
     draw(currentBlock, stack);
-    scoreElement.innerText = `${score}`;
     if (!currentBlock.checkCollision()) {
       currentBlock.goDown();
     } else {
@@ -58,8 +56,8 @@ let gameAnimation: Timer = createTimer({
 });
 
 function reset() {
-  // cancelAnimationFrame(animationFrameId);
   gameAnimation.reset();
+  score.reset();
   gameOver = true;
   draw();
 }
@@ -147,4 +145,8 @@ eventEmitter.on("pause", (pause: boolean) => {
   } else {
     gameAnimation.play();
   }
+});
+
+eventEmitter.on("rowsDeleted", (noOfRows: number) => {
+  score.update(noOfRows);
 });
