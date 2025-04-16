@@ -13,7 +13,7 @@ class Score {
   update(noOfLinesBrokenAtOnce: number) {
     if (noOfLinesBrokenAtOnce > 1) {
       this.score +=
-        this.mainPointAdded + this.bonusPointAdded * noOfLinesBrokenAtOnce;
+        (this.mainPointAdded + this.bonusPointAdded) * noOfLinesBrokenAtOnce;
     } else {
       this.score += this.mainPointAdded;
     }

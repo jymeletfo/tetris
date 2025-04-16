@@ -45,9 +45,9 @@ export class Stack {
           this.deleteRow(row * config.cols);
           this.shiftBlocksDown(row * config.cols);
         }
+        eventEmitter.emit("rowsDeleted", this.rowsToDelete.length); // Emit event for rows deleted
         this.rowsToDelete = [];
         eventEmitter.emit("pause", false); // Resume the gameAnimation
-        eventEmitter.emit("rowsDeleted", this.rowsToDelete.length); // Emit event for rows deleted
       },
     });
   }
