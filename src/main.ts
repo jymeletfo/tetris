@@ -11,6 +11,7 @@ import {
   rotateButton,
 } from "./utils/divElements";
 import { createTimer, Timer } from "animejs";
+import eventEmitter from "./utils/eventEmitter";
 
 initialize();
 
@@ -139,3 +140,11 @@ leftButton.addEventListener("click", leftAction);
 
 rightButton.addEventListener("click", rightAction);
 rotateButton.addEventListener("click", rotateAction);
+
+eventEmitter.on("pause", (pause: boolean) => {
+  if (pause) {
+    gameAnimation.pause();
+  } else {
+    gameAnimation.play();
+  }
+});

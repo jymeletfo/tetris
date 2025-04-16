@@ -1,4 +1,6 @@
+import eventEmitter from "./eventEmitter";
 import { config } from "./init";
+import { animate } from "animejs";
 
 export class Stack {
   public allBlocks: number[] = [];
@@ -21,11 +23,38 @@ export class Stack {
 
   // Break all full rows and reorganize the stack
   breakFullRows(): void {
-    for (const row of this.rowsToDelete) {
-      this.deleteRow(row * config.cols);
-      this.shiftBlocksDown(row * config.cols);
-    }
-    this.rowsToDelete = [];
+    if (this.rowsToDelete.length === 0) return;
+
+    // Animate the breaking of rows
+    const blocksToDelete = this.rowsToDelete.flatMap((row) =>
+      Array.from({ length: config.cols }, (_, j) => row * config.cols + j)
+    );
+
+    blocksToDelete.forEach((block) => {
+      document.querySelectorAll(`.tile`)[block]?.classList.add("delete");
+    });
+
+    animate(".delete", {
+      opacity: { from: 1, to: 0, ease: "outExpo", duration: 1000 },
+
+      onBegin: () => {
+        eventEmitter.emit("pause", true); // Pause the gameAnimation
+      },
+      onComplete: () => {
+        for (const row of this.rowsToDelete) {
+          this.deleteRow(row * config.cols);
+          this.shiftBlocksDown(row * config.cols);
+        }
+        this.rowsToDelete = [];
+        eventEmitter.emit("pause", false); // Resume the gameAnimation
+      },
+    });
+
+    // for (const row of this.rowsToDelete) {
+    //   this.deleteRow(row * config.cols);
+    //   this.shiftBlocksDown(row * config.cols);
+    // }
+    // this.rowsToDelete = [];
   }
 
   // Check if a specific row is full
